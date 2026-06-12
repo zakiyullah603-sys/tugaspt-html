@@ -46,3 +46,32 @@ header{
 .navbar a:hover{
   color:#ff9f1c;
 }
+
+/* HERO */
+
+.hero{
+  height:100vh;
+  background:
+  linear-gradient(rgba(0,0,0,0.6),
+  rgba(0,0,0,0.6)),
+  url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200')
+  center/cover;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+.hero-text h2{
+  font-size:60px;
+  margin-bottom:20px;
+}
+
+.hero-text p{
+  max-width:700px;
+  margin:auto;
+  margin-bottom:30px;
+  line-height:1.7;
+}
