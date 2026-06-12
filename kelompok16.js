@@ -28,3 +28,19 @@ const menu = [
     gambar:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200"
   }
 ]
+let susunanKartu = '';
+
+menu.forEach(kopi => {
+  susunanKartu += `
+    <article class="menu-card">
+      <img src="${kopi.gambar}" alt="${kopi.nama}">
+      <div class="menu-info">
+        <h3>${kopi.nama}</h3>
+        <p><strong>${kopi.harga}</strong></p>
+        <button onclick="alert('Anda memesan ${kopi.nama}')">
+          Beli
+        </button>
+      </div>
+    </article>
+  `;
+});
