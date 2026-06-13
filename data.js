@@ -169,22 +169,3 @@ const menuData = [
   }
 
 ];
-function isiDropdownMenu() {
-  const dropdown = document.getElementById('menuSelect');
-  
-  if (!dropdown) {
-    console.error("Elemen dengan ID 'menuSelect' tidak ditemukan!");
-    return;
-  }
-
-  dropdown.innerHTML = '<option value="">Pilih Menu</option>';
-
-   menuData.forEach(item => {
-    const pilihanBaru = document.createElement('option');
-    pilihanBaru.textContent = `${item.name} (${item.price})`;
-    pilihanBaru.value = item.name;
-    dropdown.appendChild(pilihanBaru);
-  });
-}
-
-document.addEventListener("DOMContentLoaded", isiDropdownMenu);
