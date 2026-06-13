@@ -1,23 +1,46 @@
-const payButton = document.getElementById('payButton')
+const express = require('express')
+const router = express.Router()
 
-payButton.addEventListener('click', async () => {
+const midtransClient = require('midtrans-client')
 
-  const response = await fetch('/payment/qris', {
+const snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+  clientKey: process.env.MIDTRANS_CLIENT_KEY
+})
 
-    method: 'POST',
+router.post('/qris', async (req, res) => {
 
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  try {
 
-    body: JSON.stringify({
-      total: 25000
+    const parameter = {
+      transaction_details: {
+        order_id: 'ORDER-' + Date.now(),
+        gross_amount: req.body.total
+      },
+
+      credit_card: {
+        secure: true
+      },
+
+      enabled_payments: ['qris']
+    }
+
+    const transaction = await snap.createTransaction(parameter)
+
+    res.json({
+      token: transaction.token,
+      redirect_url: transaction.redirect_url
     })
 
-  })
+  } catch (error) {
 
-  const data = await response.json()
+    res.status(500).json({
+      message: error.message
+    })
 
-  window.snap.pay(data.token)
+  }
 
 })
+
+module.exports = router
