@@ -1,27 +1,78 @@
-const express = require("express");
+const http = require("http");
+const fs = require("fs");
 const path = require("path");
-
-const app = express();
 
 const PORT = 3000;
 
-/* STATIC FILE */
+/* MIME TYPES */
+const mimeTypes = {
+  ".html": "text/html",
+  ".css": "text/css",
+  ".js": "application/javascript",
+  ".json": "application/json",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon"
+};
 
-app.use(express.static(__dirname));
+/* CREATE SERVER */
+const server = http.createServer((req, res) => {
 
-/* ROUTE */
+  let filePath = "." + req.url;
 
-app.get("/",(req,res)=>{
+  // Default ke index.html
+  if (filePath === "./") {
+    filePath = "./index.html";
+  }
 
-  res.sendFile(
-    path.join(__dirname,"index.html")
-  );
+  const extname = path.extname(filePath);
+  const contentType = mimeTypes[extname] || "text/plain";
+
+  fs.readFile(filePath, (err, content) => {
+
+    if (err) {
+
+      // Jika file tidak ditemukan
+      if (err.code === "ENOENT") {
+
+        res.writeHead(404, {
+          "Content-Type": "text/html"
+        });
+
+        res.end(`
+          <h1>404 - File Tidak Ditemukan</h1>
+        `);
+
+      } else {
+
+        // Error server
+        res.writeHead(500);
+
+        res.end(`
+          Server Error: ${err.code}
+        `);
+
+      }
+
+    } else {
+
+      // Success
+      res.writeHead(200, {
+        "Content-Type": contentType
+      });
+
+      res.end(content, "utf-8");
+
+    }
+
+  });
 
 });
 
 /* START SERVER */
-
-app.listen(PORT,()=>{
+server.listen(PORT, () => {
 
   console.log(`
 ======================================
