@@ -27,8 +27,14 @@ header{
   background:#1a1a1a;
 }
 
-.navbar h1{
-  color:#ff9f1c;
+.logo {
+  background-image: url('Logo Rasa Kopi.png'); /* Nama file gambar Anda */
+  width: 130px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
 }
 
 .navbar ul{
